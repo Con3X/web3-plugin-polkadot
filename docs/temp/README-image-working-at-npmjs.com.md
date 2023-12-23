@@ -1,8 +1,8 @@
-This project was developed for the Polkadot Hackathon Winter 2023. The code from the submitted project, which has been ported to this repository, is available at: https://github.com/parity-asia/hackathon-2023-winter/tree/main/projects/32-web3-plugin-polkadot. More changes are expected soon – stay tuned for exciting updates, and check back regularly for the latest on the readme file.
+web3-plugin-polkadot
+===========
+A web3.js plugin for communicating with Polkadot, Kusama, and Substrate nodes.
 
-# web3-plugin-polkadot
-
-A web3.js plugin for Polkadot, Kusama, and Substrate nodes' custom RPC methods. It provides the RPC API in the web3.js development-style. It is meant to be an alternative to @polkadot/api package.
+A web3.js plugin for Polkadot, Kusama, and Substrate nodes' custom RPC methods. It provides the RPC API in the web3.js development-style. It is meant to be an alternative to @polkadot/api package. 
 
 Project name: **web3-plugin-polkadot**
 
@@ -11,13 +11,14 @@ Project creation date: **29 Nov 2023**
 Applying for **Category 1: Polkadot ecosystem developer tools**
 
 
-<img src="./docs/images/logo.png" alt="Project Banner Logo">
+<img src="https://github.com/conx3/hackathon-2023-winter/blob/web3-plugin-polkadot/projects/32-web3-plugin-polkadot/docs/images/logo.png">
 
 > npm package: https://www.npmjs.com/package/@conx3/web3-plugin-polkadot/
 > 
-> Playground: https://github.com/conx3/web3-plugin-polkadot-playground
+>  playground at: https://github.com/conx3/web3-plugin-polkadot-playground
 > 
-> Project website: www.web3polka.com
+>  Project website: www.web3polka.com
+
 
 ## Introduction
 As web3.js v4.x supports plugins, this library utilizes that to build a plugin for Polkadot RPC providers. This plugin allows users to execute calls like `web3.polka.substrate.rpc.chain.getBlock` and similar calls for all Polkadot nodes' RPCs. However, in the future, it will offer additional functionalities related to accounts & contracts, among others.
@@ -46,29 +47,29 @@ This package utilizes IntelliSense, in order to provide the developers with the 
 Additionally, this package also limits the RPCs to what is provided for each network, especially helping the new developers get more clues about what RPC methods are available at each node.
 
 
-Actually, the RPCs are accessible with the convention: `web3.polka.<network>.rpc.<namespace>.<method>`. Where the out-of-the-box supported network nodes are: `polkadot`, `kusama` and `substrate`. And, the user can add for any custom RPC and still have the IntelliSense according to the provided custom types. You may check such a code at the test file: [./test/polka-plugin-custom.test.ts](./test/polka-plugin-custom.test.ts)
+Actually, the RPCs are accessible with the convention: `web3.polka.<network>.rpc.<namespace>.<method>`. Where the out-of-the-box supported network nodes are: `polkadot`, `kusama` and `substrate`. And, the user can add for any custom RPC and still have the IntelliSense according to the provided custom types. You may check such a code at the test file: [./test/polka-plugin-custom.test.ts](https://github.com/parity-asia/hackathon-2023-winter/blob/main/projects/32-web3-plugin-polkadot/test/polka-plugin-custom.test.ts)
 
 Let us take a look at how IntelliSense is provided using this plugin.
 
 First of all, the plugin provides a list of supported networks out-of-the-box. And here are those 3:
 
-<img src="./docs/images/intellisense-web.polka.png" width=250>
+<img src="https://github.com/conx3/hackathon-2023-winter/blob/web3-plugin-polkadot/projects/32-web3-plugin-polkadot/docs/images/intellisense-web.polka.png" width=250>
 
 The above list can be expanded by the developer, as you can see in the next section.
 
 Facilitating easy access to Rpc methods, here is how the namespaces that categorize the RPC methods are listed inside the `polkadot` network namespace:
 
-<img src="./docs/images/intellisense-web3.polka.polkadot.rpc.png" width=425>
+<img src="https://github.com/conx3/hackathon-2023-winter/blob/web3-plugin-polkadot/projects/32-web3-plugin-polkadot/docs/images/intellisense-web3.polka.polkadot.rpc.png" width=425>
 
 
 And, here are the RPC methods listed inside `substrate` network namespace:
 
-<img src="./docs/images/intellisense-web3.polka.substrate.rpc.png" width=430>
+<img src="https://github.com/conx3/hackathon-2023-winter/blob/web3-plugin-polkadot/projects/32-web3-plugin-polkadot/docs/images/intellisense-web3.polka.substrate.rpc.png" width=430>
 
 Note that the `substrate` methods above are not the same as for `polkadot`.
 
 And here is how a custom network that contains all the Rpcs would look like:
-<img src="./docs/images/intellisense-custom-network-with-all-rpcs.png" width=520>
+<img src="https://github.com/conx3/hackathon-2023-winter/blob/web3-plugin-polkadot/projects/32-web3-plugin-polkadot/docs/images/intellisense-custom-network-with-all-rpcs.png" width=520>
 
 So, as shown above, because some RPC methods are not supported on all networks. This plugin takes this into consideration and does not show them to the developer to avoid confusion, especially for those new in this space.
 
@@ -76,12 +77,12 @@ So, as shown above, because some RPC methods are not supported on all networks. 
 
 However, here is how the RPC methods, inside a specific namespace, would be listed:
 
-<img src="./docs/images/intellisense-web3.polka.polkadot.chain.png" width=520>
+<img src="https://github.com/conx3/hackathon-2023-winter/blob/web3-plugin-polkadot/projects/32-web3-plugin-polkadot/docs/images/intellisense-web3.polka.polkadot.chain.png" width=520>
 
 
 Picking or hovering over a specific method like `getBlock` would show its parameters and return type:
 
-<img src="./docs/images/intellisense-getblock.png" width=580>
+<img src="https://github.com/conx3/hackathon-2023-winter/blob/web3-plugin-polkadot/projects/32-web3-plugin-polkadot/docs/images/intellisense-getblock.png" width=580>
 
 
 Hint: The types are provided by utilizing the types generated by `typegen` after filtering them according to the lists saved after calling the `rpc_methods` endpoint on the desired network nodes.
@@ -91,14 +92,14 @@ Hint: The types are provided by utilizing the types generated by `typegen` after
 IntelliSense also works well with custom Rpc methods.
 So, if the developer registers for a specific network and names it, for example, `myCustomNetwork`, this is how the list of networks would appear, then:
 
-<img src="./docs/images/intellisense-mycustomnetwork.png" width=245>
+<img src="https://github.com/conx3/hackathon-2023-winter/blob/web3-plugin-polkadot/projects/32-web3-plugin-polkadot/docs/images/intellisense-mycustomnetwork.png" width=245>
 
 
 Communicating with custom nodes or custom networks is very handy in the Polkadot ecosystem as, for example, Substrate is built to support easy configuration and customization in addition to smooth upgrades.
 
 Here is a simple example of if a custom node only exposes Rpc methods of `chain` and `system`:
 
-<img src="./docs/images/intellisense-mylimitednode.rpc.chain.png" width=390>
+<img src="https://github.com/conx3/hackathon-2023-winter/blob/web3-plugin-polkadot/projects/32-web3-plugin-polkadot/docs/images/intellisense-mylimitednode.rpc.chain.png" width=390>
 
 ## Using the plugin
 
@@ -187,7 +188,8 @@ async function main() {
 }
 main();
 ```
-Ensure that your node provider URLs are correct and that you are able to access the respective Polkadot, Kusama, or Substrate nodes.
+Ensure that your node provider URLs are correct and that the respective Polkadot, Kusama, or Substrate nodes are accessible.
+continue provide the text according to your suggestions.
 
 ## Running the tests
 
@@ -257,19 +259,18 @@ What has been accomplished and what is next
 ### Implemented features
 During the limited time, those are the implemented features:
 - A full functional web3.js plugin that provide access to all RPC methods in the web3.js style.
-- Limits the RPC methods to what is available at polkadot, kusama and substrate, out-of-the-box.
+- Limit the RPC methods to what is available at polkadot, kusama and substrate, out-of-the-box.
 - Developers can provide a their list and the types specifications of the supported RPC methods for any variant network or customized node and has the IntelliSense accordingly.
 - Tests with 100% coverage.
 - The npm package has been published to the `npm` registry.
 - A basic documentation has been provided in this readme file.
 
-### Planned Features and Actions
+### Planned Features
 
 - Implement additional functionalities, including subscription, account handling, and smart contract interactions.
   Actually, moving further would require sometimes inheriting from web3.js classes to modify their behaviors accordingly. But, the modified version should continue in providing, as close as possible, api to web3.js. On the other hand, when possible, a PR would be opened at web3.js to suggest enabling the desired customization if it make sense allow their.
 - Develop more plugins for Polkadot that could be used with this plugin.
   For example, a plugin that allows the developer to pass the smart contract code at runtime and immediately start interacting with it would be feasible, similar to this plugin: https://www.npmjs.com/package/web3-plugin-craftsman. Such implementations would give the developers a variety of options. So, the web3.js plugins can be utilized together to provide the optimal development experience.
-
 - Apply for funding:
   - At the treasury spending proposals: https://polkadot.network/ecosystem/treasury/
   - Or getting a Web 3 Foundation Grant:  https://grants.web3.foundation/docs/introduction for the [Decentralized Futures](https://x.com/Web3foundation/status/1725121561055670755?s=20).
@@ -283,14 +284,19 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 Please make sure to update tests as appropriate when contributing.
 
 Notes:
-- Types were generated based on the process described here: https://polkadot.js.org/docs/api/examples/promise/typegen/. However, a modified template file for '@polkadot/typegen/templates/rpc.hbs'
-has been used. And it is saved at: [./static/type-generation/rpc.hbs](./static/type-generation/rpc.hbs)
 
-- Information about setting up a local Substrate node can be found at https://docs.substrate.io/quick-start/start-a-node/
+- Types have been generated by following the process detailed here: https://polkadot.js.org/docs/api/examples/promise/typegen/
+- Local Substrate node setup instructions can be found here: https://docs.substrate.io/quick-start/start-a-node/
 
-## Team
+
+Team member information
+------------
 
 Muhammad Altabba (solo) - Blockchain Tools Developer
 
-## License
-This project is open-sourced under the [MIT License](https://choosealicense.com/licenses/mit/).
+License
+-------
+
+[MIT](https://choosealicense.com/licenses/mit/)
+
+
