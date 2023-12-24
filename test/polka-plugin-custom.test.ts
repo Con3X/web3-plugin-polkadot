@@ -12,11 +12,15 @@ describe('PolkaPlugin Custom Provider Tests', () => {
       'myLimitedNode',
       MyLimitedNodeRpcMethods
     );
-    web3.provider?.on('error', (error: any) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    web3.provider?.once('error', (error: any) => {
       console.log('Caught provider error: ', error.message || error);
+      console.log('Double check that your local node is running');
     });
 
-    expect((web3.polka.myLimitedNode.rpc as any)?.author).toBeUndefined();
+    // @ts-expect-error - Property 'author' does not exist on ...
+    expect(web3.polka.myLimitedNode.rpc.author).toBeUndefined();
+
     expect(web3.polka.myLimitedNode.rpc.chain).toBeDefined();
 
     const response = await web3.polka.substrate.rpc.chain.getBlock(/*hash*/);

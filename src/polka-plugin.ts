@@ -60,25 +60,31 @@ export class PolkaPlugin extends Web3PluginBase<
       ...
    * ```
    */
-  private createRpcMethods<T>(supportedRpcs: readonly string[]) {
-    const returnedRpcMethods: Record<string, any> = {};
+  private createRpcMethods<
+    T extends {
+      [P in keyof T]: T[P];
+    }
+  >(supportedRpcs: readonly string[]): Filter<T, typeof supportedRpcs> {
+    const returnedRpcMethods = {} as Filter<T, typeof supportedRpcs>;
     const objectKeys = supportedRpcs.map((rpc) => rpc.split('_', 2)[0]);
-    for (let rpcNamespace of objectKeys) {
+    for (const rpcNamespace of objectKeys) {
       const endpointNames = supportedRpcs.map((rpc) => rpc.split('_', 2)[1]);
-      const endPoints: any = {};
-      for (let endpointName of endpointNames) {
+      const endPoints = {} as T[keyof T];
+      for (const endpointName of endpointNames) {
         if (!supportedRpcs.includes(`${rpcNamespace}_${endpointName}`)) {
           continue;
         }
-        endPoints[endpointName] = (args: any) =>
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (endPoints as any)[endpointName] = ((args: any) =>
           this.requestManager.send({
             method: `${rpcNamespace}_${endpointName}`,
             params: [args],
-          });
+          })) as T[keyof T][keyof T];
       }
-      returnedRpcMethods[rpcNamespace] = endPoints;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (returnedRpcMethods as any)[rpcNamespace] = endPoints;
     }
-    return returnedRpcMethods as T;
+    return returnedRpcMethods;
   }
 
   // The following commented code contains experiments with using index signature instead of using the method `createRpcMethods`.
@@ -117,13 +123,13 @@ export class PolkaPlugin extends Web3PluginBase<
   constructor() {
     super();
     this.polkadot = {
-      rpc: this.createRpcMethods(PolkadotSupportedRpcMethods),
+      rpc: this.createRpcMethods<PolkadotSimpleRpcInterfaceFiltered>(PolkadotSupportedRpcMethods),
     };
     this.kusama = {
-      rpc: this.createRpcMethods(KusamaSupportedRpcMethods),
+      rpc: this.createRpcMethods<KusamaSimpleRpcInterfaceFiltered>(KusamaSupportedRpcMethods),
     };
     this.substrate = {
-      rpc: this.createRpcMethods(SubstrateSupportedRpcMethods),
+      rpc: this.createRpcMethods<SubstrateSimpleRpcInterfaceFiltered>(SubstrateSupportedRpcMethods),
     };
   }
 
@@ -140,12 +146,15 @@ export class PolkaPlugin extends Web3PluginBase<
     TypeOfSupportedRpcs extends readonly string[],
     // SimpleRpcInterface is identical, at least at this moment for all networks.
     // So, it is fair enough to use SubstrateSimpleRpcInterface as the default.
-    T extends Record<string, any> = SubstrateSimpleRpcInterface
+    T extends {
+      [P in keyof T]: T[P];
+    } = SubstrateSimpleRpcInterface
   >(
     web3: Web3,
     pluginNamespace: NameSpace,
     supportedRpcs: TypeOfSupportedRpcs
   ): Web3 & { polka: Record<NameSpace, { rpc: Filter<T, typeof supportedRpcs> }> } {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (this as any)[pluginNamespace] = { rpc: this.createRpcMethods(supportedRpcs) };
 
     web3.registerPlugin(this);

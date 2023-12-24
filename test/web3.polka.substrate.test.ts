@@ -7,8 +7,10 @@ describe('test some RPC methods at web3.polka.substrate', () => {
   beforeAll(async () => {
     web3 = new Web3('ws://127.0.0.1:9944/');
     web3.registerPlugin(new PolkaPlugin());
-    web3.provider?.on('error', (error: any) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    web3.provider?.once('error', (error: any) => {
       console.log('Caught provider error: ', error.message || error);
+      console.log('Double check that you can connect to the remote node');
     });
   });
 
@@ -70,8 +72,14 @@ describe('test some RPC methods at web3.polka.substrate', () => {
   });
 
   it('should not have the rpc methods that is not available at substrate (for example beefy.[method])', async () => {
-    expect((web3.polka.substrate as any).beefy?.getFinalizedHead).toBeUndefined();
-    expect((web3.polka.substrate as any).beefy?.subscribeJustifications).toBeUndefined();
-    expect((web3.polka.substrate as any).beefy?.unsubscribeJustifications).toBeUndefined();
+    // @ts-expect-error - Property 'beefy' does not exist on type '{ rpc: SubstrateSimpleRpcInterfaceFiltered; }'
+    expect(web3.polka.substrate.beefy).toBeUndefined();
+
+    // @ts-expect-error - Property 'beefy' does not exist on type '{ rpc: SubstrateSimpleRpcInterfaceFiltered; }'
+    expect(web3.polka.substrate.beefy?.getFinalizedHead).toBeUndefined();
+    // @ts-expect-error - Property 'beefy' does not exist on type '{ rpc: SubstrateSimpleRpcInterfaceFiltered; }'
+    expect(web3.polka.substrate.beefy?.subscribeJustifications).toBeUndefined();
+    // @ts-expect-error - Property 'beefy' does not exist on type '{ rpc: SubstrateSimpleRpcInterfaceFiltered; }'
+    expect(web3.polka.substrate.beefy?.unsubscribeJustifications).toBeUndefined();
   });
 });

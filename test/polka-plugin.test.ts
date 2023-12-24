@@ -3,7 +3,7 @@ import { PolkaPlugin } from '../src';
 
 describe('PolkaPlugin Tests', () => {
   it('should be able to register the plugin', () => {
-    const web3 = new Web3('http://some-domain.com');
+    const web3 = new Web3('http://some-rpc-provider.com');
     expect(web3.polka).toBeUndefined();
     web3.registerPlugin(new PolkaPlugin());
     expect(web3.polka).toBeDefined();
@@ -15,8 +15,10 @@ describe('PolkaPlugin Tests', () => {
     beforeAll(async () => {
       web3 = new Web3('ws://127.0.0.1:9944/');
       web3.registerPlugin(new PolkaPlugin());
-      web3.provider?.on('error', (error: any) => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      web3.provider?.once('error', (error: any) => {
         console.log('Caught provider error: ', error.message || error);
+        console.log('Double check that your local node is running');
       });
     });
 

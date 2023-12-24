@@ -24,16 +24,20 @@ type PrefixSubByNameSpace<T> = {
 };
 
 type ValuesOf<T> = T[keyof T];
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type ObjectValuesOf<T> = Exclude<Extract<ValuesOf<T>, object>, Array<any>>;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type FlattenUnion<T> = T extends any
   ? {
       [P in keyof T]: T[P] extends (...args: infer A) => Observable<infer U> ? (...args: A) => U : never;
     }
   : never;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (k: infer I) => void ? I : never;
 /**
  * Utility type to flatten the rpc interface because it is a 2 level nested inside the rpc interface.
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Flattener<T> = T extends any ? UnionToIntersection<FlattenUnion<ObjectValuesOf<T>>> : never;
 
 // To do a Transformation from `{ namespace.method }` to `{ namespace.namespace_method }`:

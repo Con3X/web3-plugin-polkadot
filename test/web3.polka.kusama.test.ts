@@ -7,8 +7,10 @@ describe('test some RPC methods at web3.polka.kusama', () => {
   beforeAll(async () => {
     web3 = new Web3('wss://kusama-rpc.polkadot.io');
     web3.registerPlugin(new PolkaPlugin());
-    web3.provider?.on('error', (error: any) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    web3.provider?.once('error', (error: any) => {
       console.log('Caught provider error: ', error.message || error);
+      console.log('Double check that you can connect to the remote node');
     });
   });
 
